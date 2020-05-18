@@ -7,13 +7,7 @@ class Wheel extends GameObject {
         parent.appendChild(this)
     }
 
-    move():void {
-        return
-    }
-
-    onCollision(gameObject:GameObject):void {
-        return
-    }
+    onCollision(gameObject:GameObject):void { return }
 }
 
 window.customElements.define("wheel-component", Wheel as any)

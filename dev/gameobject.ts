@@ -1,11 +1,21 @@
 abstract class GameObject extends HTMLElement {
     // Fields
-    protected x:Number
-    protected y:Number
+    protected x:number
+    protected y:number
+    protected speed:number
 
     // Properties
     public get width():number { return this.clientWidth }
     public get height():number { return this.clientHeight }
+
+    public get Speed():number { return this.speed }
+    public set Speed(value:number) { this.speed = value }
+
+	public get X():number { return this.x }
+	public set X(value:number) { this.x = value }
+
+	public get Y():number { return this.y }
+    public set Y(value:number) { this.y = value }
 
     // Contructor
     constructor() {
@@ -13,18 +23,20 @@ abstract class GameObject extends HTMLElement {
     }
 
     // Methods
-    public hasCollision(rect1:Car, rect2:Rock):boolean {
+    public hasCollision(gameObject:GameObject):boolean {
         return(
-            rect1.X < rect2.X + rect2.width &&
-            rect1.X + rect1.width > rect2.X &&
-            rect1.Y < rect2.Y + rect2.height &&
-            rect1.Y + rect1.height > rect2.Y
+            this.X < gameObject.X + gameObject.width &&
+            this.X + this.width > gameObject.X &&
+            this.Y < gameObject.Y + gameObject.height &&
+            this.Y + this.height > gameObject.Y
         )
     }
 
-    abstract move():void
+    public move():void {
+        this.draw()
+    }
 
-    protected draw():void {
+    private draw():void {
         this.style.transform =`translate(${this.x}px,${this.y}px)`
     }
 

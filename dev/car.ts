@@ -3,21 +3,9 @@
 
 class Car extends GameObject {
     // Fields
-    private speed: number = Math.random() * 2 + 1
     private braking: boolean = false
     private stopped: boolean = false
     private game: Game
-    y = 0
-    x = 0
-
-    // Properties
-    public get Speed():number { return this.speed }
-
-	public get X():number { return this.x }
-	public set X(value:number) { this.x = value }
-
-	public get Y():number { return this.y }
-    public set Y(value:number) { this.y = value }
 
     // Constructor
     constructor(yIndex:number, game:Game) {
@@ -26,6 +14,7 @@ class Car extends GameObject {
         this.game = game
         this.X = 0
         this.Y = (70 * yIndex) + 80
+        this.Speed = (Math.random() * 2 + 1)
         
         new Wheel(this, 105)
         new Wheel(this, 20)
@@ -64,11 +53,14 @@ class Car extends GameObject {
             this.braking = false
             this.stopped = true
         }
-        this.draw()
+        super.move()
     }
 
-    onCollision(GameObject:GameObject):void {
-        return
+    onCollision(gameObject:GameObject):void {
+        if(gameObject instanceof Rock) {
+            this.crash()
+            this.game.gameOver()
+        }
     }
 
     public crash():void {

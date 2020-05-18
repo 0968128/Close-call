@@ -2,15 +2,18 @@
 
 class Rock extends GameObject {
     // Fields 
-    x = 0
-    y = 0
     private g: number = 0
-    private speed: number = 0
+    
     private rotation: number = 0
     private rotationSpeed: number = 0
 
     // Properties
-    public set Speed(s:number) { this.speed = s }     
+    x = 0
+    y = 0
+    speed: number = 0
+
+    public get Speed():number { return this.speed }
+    public set Speed(value:number) { this.speed = value }     
 
 	public get X():number { return this.x }
 	public set X(value:number) { this.x = value }
@@ -43,15 +46,18 @@ class Rock extends GameObject {
         }
 
         //teken de div op de juiste positie
-        this.draw()
+        super.move()
     }
 
-    onCollision(GameObject:GameObject):void {
-        return
+    onCollision(gameObject:GameObject):void {
+        if(gameObject instanceof Car) {
+            this.crash(gameObject.Speed)
+        }
     }
 
-    public crash() {
+    public crash(carSpeed:number) {
         this.g = 9.81
+        this.speed = carSpeed
         this.rotationSpeed = 5
     }
 }

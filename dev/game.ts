@@ -20,13 +20,7 @@ class Game {
 
     private gameLoop() {
         for(let gameObject of this.gameObjects) {
-            if(gameObject instanceof Car) {
-                gameObject.move()
-            }
-
-            if(gameObject instanceof Rock) {
-                gameObject.move()
-            }
+            gameObject.move()
         }
 
         this.checkCollision()
@@ -36,30 +30,16 @@ class Game {
     }
 
     private checkCollision():void {
-        let cars = []
-        let rocks = []
-        for(let gameObject of this.gameObjects) {
-            if(gameObject instanceof Car) {
-                cars.push(gameObject)
-            }
-
-            if(gameObject instanceof Rock) {
-                rocks.push(gameObject)
-            }
-
-            for(let car of cars) {
-                for(let rock of rocks) {
-                    if(gameObject.hasCollision(car, rock)) {
-                        rock.crash()
-                        car.crash()
-                        this.gameOver()
-                    }
+        for(let gameObject1 of this.gameObjects) {
+            for(let gameObject2 of this.gameObjects) {
+                if(gameObject1.hasCollision(gameObject2)) {
+                    gameObject1.onCollision(gameObject2)
                 }
             }
         }
     }
 
-    private gameOver():void {
+    public gameOver():void {
         this.gameover = true
         document.getElementById("score").innerHTML = "Game Over"
         cancelAnimationFrame(requestAnimationFrame(() => this.gameLoop()))
